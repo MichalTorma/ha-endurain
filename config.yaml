@@ -1,6 +1,6 @@
 name: "Endurain Fitness Tracker"
 description: "Self-hosted fitness tracking application with PostgreSQL support"
-version: "0.3.7"
+version: "0.3.8"
 slug: "endurain"
 arch:
   - aarch64
@@ -20,6 +20,7 @@ ingress_port: 8080
 panel_icon: mdi:run
 panel_title: "Endurain"
 panel_admin: false
+webui: "http://[HOST]:[PORT:8080]"
 ports:
   8080/tcp: 8080
 ports_description:
