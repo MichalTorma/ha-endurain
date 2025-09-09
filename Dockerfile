@@ -117,6 +117,16 @@ RUN \
 # Copy rootfs
 COPY rootfs /
 
+# Verify services are present in the final image (build-time diagnostics)
+RUN \
+    echo "Verifying s6 legacy services presence..." \
+    && ls -la /etc/services.d || true \
+    && ls -la /etc/services.d/endurian || true \
+    && echo "--- run (first lines) ---" \
+    && head -10 /etc/services.d/endurian/run || true \
+    && echo "--- type ---" \
+    && cat /etc/services.d/endurian/type || true
+
 # Set working directory to backend
 WORKDIR /app/backend
 
