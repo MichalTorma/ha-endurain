@@ -56,9 +56,40 @@ fi
 # Start the actual Endurian application
 bashio::log.info "Starting Endurian FastAPI application..."
 
-# Set environment variables for the application
+# Set environment variables for the application from Home Assistant config
 export ENDURIAN_UID=8080
 export ENDURIAN_GID=8080
+
+# Database configuration
+export DB_HOST=$(bashio::config 'postgres_host')
+export DB_PORT=$(bashio::config 'postgres_port')
+export DB_USER=$(bashio::config 'postgres_user')
+export DB_PASSWORD=$(bashio::config 'postgres_password')
+export DB_NAME=$(bashio::config 'postgres_db')
+export DB_SCHEMA=$(bashio::config 'postgres_schema')
+
+# Application configuration
+export SECRET_KEY=$(bashio::config 'secret_key')
+export APP_TITLE=$(bashio::config 'app_title')
+export APP_DESCRIPTION=$(bashio::config 'app_description')
+export APP_VERSION=$(bashio::config 'app_version')
+
+# CORS configuration
+export CORS_ORIGINS=$(bashio::config 'cors_origins')
+export CORS_METHODS=$(bashio::config 'cors_methods')
+export CORS_HEADERS=$(bashio::config 'cors_headers')
+
+# Server configuration
+export BEHIND_PROXY=$(bashio::config 'behind_proxy')
+export WORKERS=$(bashio::config 'workers')
+export UPLOAD_FOLDER=$(bashio::config 'upload_folder')
+export MAX_CONTENT_LENGTH=$(bashio::config 'max_content_length')
+
+# Logging
+export LOG_LEVEL=$(bashio::config 'log_level')
+export DEBUG=$(bashio::config 'debug')
+
+bashio::log.info "Environment variables set from Home Assistant config"
 
 # Check if main.py exists
 if [[ ! -f /app/backend/main.py ]]; then
