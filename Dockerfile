@@ -50,9 +50,9 @@ WORKDIR /tmp
 # Download and extract Endurian source
 RUN \
     echo "Downloading Endurian ${ENDURIAN_VERSION}..." \
-    && wget -O endurian.tar.gz "https://github.com/joaovitoriasilva/endurain/archive/refs/tags/${ENDURIAN_VERSION}.tar.gz" \
-    && tar -xzf endurian.tar.gz --strip-components=1 \
-    && rm endurian.tar.gz
+    && wget -O endurain.tar.gz "https://github.com/joaovitoriasilva/endurain/archive/refs/tags/${ENDURIAN_VERSION}.tar.gz" \
+    && tar -xzf endurain.tar.gz --strip-components=1 \
+    && rm endurain.tar.gz
 
 # Build frontend
 WORKDIR /tmp/frontend/app
@@ -122,15 +122,15 @@ COPY rootfs /
 RUN \
     echo "Verifying s6 legacy services presence..." \
     && ls -la /etc/services.d || true \
-    && ls -la /etc/services.d/endurian || true \
+    && ls -la /etc/services.d/endurain || true \
     && echo "--- run (first lines) ---" \
-    && head -10 /etc/services.d/endurian/run || true \
+    && head -10 /etc/services.d/endurain/run || true \
     && echo "--- type ---" \
-    && cat /etc/services.d/endurian/type || true \
+    && cat /etc/services.d/endurain/type || true \
     && echo "--- finish (first lines) ---" \
-    && head -5 /etc/services.d/endurian/finish || true \
+    && head -5 /etc/services.d/endurain/finish || true \
     && echo "--- checking if run is executable ---" \
-    && ls -la /etc/services.d/endurian/run || true
+    && ls -la /etc/services.d/endurain/run || true
 
 # Set working directory to backend
 WORKDIR /app/backend
@@ -156,7 +156,7 @@ LABEL \
     org.opencontainers.image.vendor="Home Assistant Community Add-ons" \
     org.opencontainers.image.authors="Michal Torma <torma.michal@gmail.com>" \
     org.opencontainers.image.licenses="MIT" \
-    org.opencontainers.image.url="https://github.com/MichalTorma/ha-endurian" \
+    org.opencontainers.image.url="https://github.com/MichalTorma/ha-endurain" \
     org.opencontainers.image.source="https://github.com/${BUILD_REPOSITORY}" \
     org.opencontainers.image.documentation="https://github.com/${BUILD_REPOSITORY}/blob/main/README.md" \
     org.opencontainers.image.created=${BUILD_DATE} \

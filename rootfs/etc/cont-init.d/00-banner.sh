@@ -15,7 +15,7 @@ if bashio::supervisor.ping; then
         bashio::log.blue \
             '-----------------------------------------------------------'
         bashio::log.blue " Add-on version: $(bashio::addon.version)"
-        bashio::log.blue " Endurian version: $(bashio::config 'endurian_version')"
+        bashio::log.blue " Endurain version: $(bashio::config 'endurain_version')"
         bashio::log.blue \
             '-----------------------------------------------------------'
         bashio::log.blue " Please, share the above with the developers"

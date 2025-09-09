@@ -1,7 +1,7 @@
 name: "Endurian Fitness Tracker"
 description: "Self-hosted fitness tracking application with PostgreSQL support"
-version: "0.3.4"
-slug: "endurian"
+version: "0.3.5"
+slug: "endurain"
 arch:
   - aarch64
   - amd64
@@ -29,7 +29,7 @@ map:
   - ssl:ro
   - share:rw
 options:
-  endurian_version: "v0.14.0"
+  endurain_version: "v0.14.0"
   app_title: "Endurian Fitness Tracker"
   app_description: "Self-hosted fitness tracking application"
   app_version: "0.14.0"
@@ -75,7 +75,7 @@ options:
   upload_folder: "/share/endurain/uploads"
   max_content_length: 16777216
 schema:
-  endurian_version: "str"
+  endurain_version: "str"
   app_title: "str"
   app_description: "str"
   app_version: "str"

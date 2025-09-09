@@ -1,5 +1,5 @@
 configuration:
-  endurian_version:
+  endurain_version:
     name: Endurian Version
     description: Version of Endurian to install and run
   app_title:

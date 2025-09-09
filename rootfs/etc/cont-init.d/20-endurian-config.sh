@@ -71,12 +71,12 @@ GID=8080
 EOF
 
 # Set proper ownership and permissions
-chown endurian:endurian /app/backend/.env
+chown endurain:endurain /app/backend/.env
 chmod 600 /app/backend/.env
 
 # Create upload directory if it doesn't exist
 mkdir -p "${UPLOAD_FOLDER}"
-chown -R endurian:endurian "${UPLOAD_FOLDER}"
+chown -R endurain:endurain "${UPLOAD_FOLDER}"
 
 # Test PostgreSQL connection
 bashio::log.info "Testing PostgreSQL connection..."
