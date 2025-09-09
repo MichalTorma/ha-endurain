@@ -31,13 +31,13 @@ fi
 
 # Create required directories
 bashio::log.info "Creating required directories..."
-mkdir -p /config/endurian
-mkdir -p /share/endurian/uploads
-mkdir -p /var/log/endurian
+mkdir -p /config/endurain
+mkdir -p /share/endurain/uploads
+mkdir -p /var/log/endurain
 
 # Set proper permissions
-chown -R endurian:endurian /config/endurian
-chown -R endurian:endurian /share/endurian
-chown -R endurian:endurian /var/log/endurian
+chown -R endurain:endurain /config/endurain
+chown -R endurain:endurain /share/endurain
+chown -R endurain:endurain /var/log/endurain
 
 bashio::log.info "Requirements check completed successfully!"

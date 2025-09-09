@@ -34,15 +34,15 @@ RUN \
         postgresql-client \
         pkgconfig
 
-# Create endurian user and directories
+# Create endurain user and directories
 RUN \
-    addgroup -g 8080 endurian \
-    && adduser -D -s /bin/bash -u 8080 -G endurian endurian \
+    addgroup -g 8080 endurain \
+    && adduser -D -s /bin/bash -u 8080 -G endurain endurain \
     && mkdir -p /app/frontend \
     && mkdir -p /app/backend \
-    && mkdir -p /config/endurian \
-    && mkdir -p /share/endurian/uploads \
-    && mkdir -p /var/log/endurian
+    && mkdir -p /config/endurain \
+    && mkdir -p /share/endurain/uploads \
+    && mkdir -p /var/log/endurain
 
 # Set working directory
 WORKDIR /tmp
@@ -100,15 +100,15 @@ RUN \
 
 # Set proper permissions
 RUN \
-    chown -R endurian:endurian /app \
-    && chown -R endurian:endurian /config/endurian \
-    && chown -R endurian:endurian /share/endurian \
-    && chown -R endurian:endurian /var/log/endurian \
-    && chown -R endurian:endurian /opt/venv \
+    chown -R endurain:endurain /app \
+    && chown -R endurain:endurain /config/endurain \
+    && chown -R endurain:endurain /share/endurain \
+    && chown -R endurain:endurain /var/log/endurain \
+    && chown -R endurain:endurain /opt/venv \
     && chmod -R g+w /app \
-    && chmod -R g+w /config/endurian \
-    && chmod -R g+w /share/endurian \
-    && chmod -R g+w /var/log/endurian
+    && chmod -R g+w /config/endurain \
+    && chmod -R g+w /share/endurain \
+    && chmod -R g+w /var/log/endurain
 
 # Clean up build files
 RUN \

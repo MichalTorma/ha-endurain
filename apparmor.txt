@@ -1,6 +1,6 @@
 #include <tunables/global>
 
-profile endurian flags=(attach_disconnected,mediate_deleted) {
+profile endurain flags=(attach_disconnected,mediate_deleted) {
   #include <abstractions/base>
 
   # Capabilities
@@ -78,11 +78,11 @@ profile endurian flags=(attach_disconnected,mediate_deleted) {
   /dev/urandom r,
 
   # Allow application to write logs
-  /var/log/endurian/** rw,
+  /var/log/endurain/** rw,
 
   # Application uploads and data
-  /share/endurian/** rw,
-  /config/endurian/** rw,
+  /share/endurain/** rw,
+  /config/endurain/** rw,
 
   # Deny some dangerous paths
   deny /proc/kcore r,

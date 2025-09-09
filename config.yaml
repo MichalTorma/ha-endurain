@@ -1,6 +1,6 @@
 name: "Endurian Fitness Tracker"
 description: "Self-hosted fitness tracking application with PostgreSQL support"
-version: "0.3.3"
+version: "0.3.4"
 slug: "endurian"
 arch:
   - aarch64
@@ -35,13 +35,13 @@ options:
   app_version: "0.14.0"
   postgres_host: "localhost"
   postgres_port: 5432
-  postgres_user: "endurian"
+  postgres_user: "endurain"
   postgres_password: ""
-  postgres_db: "endurian"
+  postgres_db: "endurain"
   postgres_schema: "public"
   secret_key: ""
   fernet_key: ""
-  endurian_host: "http://localhost:8080"
+  endurain_host: "http://localhost:8080"
   timezone: "UTC"
   reverse_geo_provider: "nominatim"
   photon_api_host: "photon.komoot.io"
@@ -72,7 +72,7 @@ options:
   workers: 1
   bind_host: "0.0.0.0"
   bind_port: 8080
-  upload_folder: "/share/endurian/uploads"
+  upload_folder: "/share/endurain/uploads"
   max_content_length: 16777216
 schema:
   endurian_version: "str"
@@ -87,7 +87,7 @@ schema:
   postgres_schema: "str"
   secret_key: "password"
   fernet_key: "password"
-  endurian_host: "str"
+  endurain_host: "str"
   timezone: "str"
   reverse_geo_provider: "list(nominatim|photon|geocode)"
   photon_api_host: "str"
