@@ -61,18 +61,20 @@ RUN \
     && npm run build \
     && cp -r dist/* /app/frontend/
 
-# Install Python dependencies
+# Install Python dependencies in virtual environment
 WORKDIR /tmp/backend
 RUN \
-    echo "Installing backend dependencies..." \
+    echo "Creating virtual environment and installing backend dependencies..." \
+    && python3 -m venv /opt/venv \
+    && . /opt/venv/bin/activate \
+    && pip install --no-cache-dir --upgrade pip \
     && if [ -f pyproject.toml ]; then \
-        pip install --no-cache-dir --break-system-packages poetry \
+        pip install --no-cache-dir poetry \
         && poetry self add poetry-plugin-export \
         && poetry export -f requirements.txt --output requirements.txt --without-hashes; \
     fi \
     && if [ -f requirements.txt ]; then \
-        pip install --no-cache-dir --break-system-packages --upgrade pip \
-        && pip install --no-cache-dir --break-system-packages --upgrade -r requirements.txt; \
+        pip install --no-cache-dir --upgrade -r requirements.txt; \
     fi
 
 # Copy backend application
@@ -86,6 +88,7 @@ RUN \
     && chown -R endurian:endurian /config/endurian \
     && chown -R endurian:endurian /share/endurian \
     && chown -R endurian:endurian /var/log/endurian \
+    && chown -R endurian:endurian /opt/venv \
     && chmod -R g+w /app \
     && chmod -R g+w /config/endurian \
     && chmod -R g+w /share/endurian \

@@ -41,9 +41,9 @@ bashio::log.info "- Workers: ${WORKERS}"
 bashio::log.info "- Log Level: ${LOG_LEVEL}"
 bashio::log.info "- Debug: ${DEBUG}"
 
-# Switch to endurian user and start the application
+# Switch to endurian user and start the application using virtual environment
 exec s6-setuidgid endurian \
-    python3 -m uvicorn main:app \
+    /opt/venv/bin/python -m uvicorn main:app \
         --host "${BIND_HOST}" \
         --port "${BIND_PORT}" \
         --workers "${WORKERS}" \
