@@ -1,6 +1,6 @@
 name: "Endurain Fitness Tracker"
 description: "Self-hosted fitness tracking application with PostgreSQL support"
-version: "0.6.1"
+version: "0.7.0"
 slug: "endurain"
 arch:
   - aarch64
@@ -15,11 +15,11 @@ hassio_api: true
 hassio_role: default
 host_network: false
 privileged: []
-ingress: true
-ingress_port: 8080
+ingress: false
 panel_icon: mdi:run
 panel_title: "Endurain"
 panel_admin: false
+webui: "http://[HOST]:[PORT:8080]"
 ports:
   8080/tcp: 8080
 ports_description:

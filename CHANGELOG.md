@@ -5,6 +5,29 @@ All notable changes to this add-on will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.0] - 2024-12-XX
+
+### Changed
+- **FINAL**: Switched to webui approach for reliable Home Assistant integration
+- **BREAKING**: Disabled ingress due to incompatibility with Endurain's frontend architecture
+- Removed nginx reverse proxy (not needed for webui)
+- Simplified configuration for better stability and reliability
+
+### Fixed
+- Resolved all static asset loading issues by using webui instead of ingress
+- Fixed sidebar integration - Endurain now opens in new tab/window via webui
+- Eliminated NS_ERROR_CORRUPTED_CONTENT errors completely
+
+### Technical Notes
+- Endurain's frontend uses hardcoded absolute paths incompatible with ingress
+- webui provides reliable access while maintaining Home Assistant integration
+- Direct port access ensures all assets load correctly
+
+### Removed
+- Removed nginx reverse proxy configuration
+- Removed complex ingress detection and root-path logic
+- Simplified to direct uvicorn serving on port 8080
+
 ## [0.6.0] - 2024-12-XX
 
 ### Added

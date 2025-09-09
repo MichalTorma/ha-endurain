@@ -1,7 +1,0 @@
-#!/usr/bin/with-contenv bashio
-# ==============================================================================
-# Home Assistant Community Add-on: Endurain
-# nginx finish script
-# ==============================================================================
-
-bashio::log.info "nginx reverse proxy stopped."
