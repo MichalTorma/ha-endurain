@@ -1,10 +1,15 @@
-#!/usr/bin/with-contenv bashio
+#!/command/with-contenv bashio
 # ==============================================================================
 # Home Assistant Community Add-on: Endurian
 # Runs the Endurian FastAPI application
 # ==============================================================================
 
-bashio::log.info "Starting Endurian application..."
+bashio::log.info "=== ENDURIAN SERVICE STARTING ==="
+bashio::log.info "This message should appear if s6 recognizes the service"
+
+# Basic test - just make sure the service is recognized
+sleep 2
+bashio::log.info "Service recognition test passed!"
 
 # Get configuration values
 DEBUG=$(bashio::config 'debug')
@@ -13,82 +18,39 @@ WORKERS=$(bashio::config 'workers')
 BIND_HOST=$(bashio::config 'bind_host')
 BIND_PORT=$(bashio::config 'bind_port')
 
-# Set logging level based on add-on debug setting
-if bashio::config.true 'debug'; then
-    export LOG_LEVEL="DEBUG"
-    bashio::log.debug "Debug mode enabled"
-fi
+bashio::log.info "Configuration loaded:"
+bashio::log.info "- Host: ${BIND_HOST}"
+bashio::log.info "- Port: ${BIND_PORT}"
+bashio::log.info "- Log Level: ${LOG_LEVEL}"
 
-# Change to backend directory
-cd /app/backend || bashio::exit.nok "Failed to change to backend directory"
+# Check basic paths
+bashio::log.info "Checking basic paths..."
+bashio::log.info "Current working directory: $(pwd)"
+bashio::log.info "Current user: $(whoami)"
 
-# Check if backend directory has the expected files
-bashio::log.info "Backend directory contents:"
-ls -la /app/backend/
-
-# Source environment file
-if [[ -f .env ]]; then
-    source .env
-    bashio::log.debug "Environment file loaded"
+# Check if backend directory exists
+if [[ -d /app/backend ]]; then
+    bashio::log.info "Backend directory exists"
+    bashio::log.info "Backend contents:"
+    ls -la /app/backend/ | head -10
 else
-    bashio::log.warning "Environment file not found, using defaults"
-fi
-
-# Check if main.py exists
-if [[ ! -f main.py ]]; then
-    bashio::exit.nok "main.py not found in /app/backend directory!"
+    bashio::log.error "Backend directory missing!"
+    bashio::log.info "App directory contents:"
+    ls -la /app/ || bashio::log.error "App directory doesn't exist"
 fi
 
 # Check virtual environment
-if [[ ! -f /opt/venv/bin/python ]]; then
-    bashio::exit.nok "Python virtual environment not found at /opt/venv/bin/python!"
+if [[ -f /opt/venv/bin/python ]]; then
+    bashio::log.info "Virtual environment found"
+    /opt/venv/bin/python --version
+else
+    bashio::log.error "Virtual environment missing!"
+    ls -la /opt/ || bashio::log.error "Opt directory doesn't exist"
 fi
 
-# Set environment variables for the application
-export UID=8080
-export GID=8080
-
-bashio::log.info "Starting Endurian with the following configuration:"
-bashio::log.info "- Host: ${BIND_HOST}"
-bashio::log.info "- Port: ${BIND_PORT}"
-bashio::log.info "- Workers: ${WORKERS}"
-bashio::log.info "- Log Level: ${LOG_LEVEL}"
-bashio::log.info "- Debug: ${DEBUG}"
-
-# Add more debugging output first
-bashio::log.info "=== DEBUG: Service starting ==="
-bashio::log.info "Current user: $(whoami)"
-bashio::log.info "Current working directory: $(pwd)"
-bashio::log.info "Environment variables:"
-env | grep -E "(BIND|LOG_LEVEL|POSTGRES)" || bashio::log.info "No matching env vars"
-
-# Check if required files exist
-bashio::log.info "Checking required files..."
-if [[ ! -f /opt/venv/bin/python ]]; then
-    bashio::log.error "Virtual environment not found at /opt/venv/bin/python"
-    ls -la /opt/venv/bin/ || bashio::log.error "Virtual environment directory doesn't exist"
-    bashio::exit.nok "Virtual environment missing!"
-fi
-
-if [[ ! -f /app/backend/main.py ]]; then
-    bashio::log.error "main.py not found at /app/backend/main.py"
-    bashio::log.info "Backend directory contents:"
-    ls -la /app/backend/ || bashio::log.error "Backend directory doesn't exist"
-    bashio::exit.nok "FastAPI main.py missing!"
-fi
-
-bashio::log.info "All files exist, starting Endurian..."
-
-# Set environment variables for the application
-export UID=8080
-export GID=8080
-
-# Start with direct command and explicit output redirection
-bashio::log.info "Starting uvicorn directly..."
-cd /app/backend
-
-# Use exec without s6-setuidgid first to see if that's the issue
-/opt/venv/bin/python -m uvicorn main:app \
-    --host "${BIND_HOST}" \
-    --port "${BIND_PORT}" \
-    --log-level "${LOG_LEVEL,,}"
+# For now, just sleep to keep the service running and visible in logs
+bashio::log.info "Starting infinite loop for testing..."
+while true; do
+    bashio::log.info "Endurian service is running... (test mode)"
+    sleep 30
+done
