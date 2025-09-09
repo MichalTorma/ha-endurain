@@ -1,6 +1,6 @@
 name: "Endurian Fitness Tracker"
 description: "Self-hosted fitness tracking application with PostgreSQL support"
-version: "0.3.0"
+version: "0.3.1"
 slug: "endurian"
 arch:
   - aarch64
@@ -41,6 +41,28 @@ options:
   postgres_schema: "public"
   secret_key: ""
   fernet_key: ""
+  endurian_host: "http://localhost:8080"
+  timezone: "UTC"
+  reverse_geo_provider: "nominatim"
+  photon_api_host: "photon.komoot.io"
+  photon_api_use_https: true
+  nominatim_api_host: "nominatim.openstreetmap.org"
+  nominatim_api_use_https: true
+  geocodes_maps_api: "changeme"
+  reverse_geo_rate_limit: 1
+  access_token_expire_minutes: 15
+  refresh_token_expire_days: 7
+  jaeger_enabled: false
+  jaeger_protocol: "http"
+  jaeger_host: "jaeger"
+  jaeger_port: 4317
+  environment: "production"
+  smtp_host: ""
+  smtp_port: 587
+  smtp_username: ""
+  smtp_password: ""
+  smtp_secure: true
+  smtp_secure_type: "starttls"
   behind_proxy: false
   cors_origins: "*"
   cors_methods: "GET,POST,PUT,DELETE"
@@ -65,6 +87,28 @@ schema:
   postgres_schema: "str"
   secret_key: "password"
   fernet_key: "password"
+  endurian_host: "str"
+  timezone: "str"
+  reverse_geo_provider: "list(nominatim|photon|geocode)"
+  photon_api_host: "str"
+  photon_api_use_https: "bool"
+  nominatim_api_host: "str"
+  nominatim_api_use_https: "bool"
+  geocodes_maps_api: "str"
+  reverse_geo_rate_limit: "int(1,)"
+  access_token_expire_minutes: "int(1,)"
+  refresh_token_expire_days: "int(1,)"
+  jaeger_enabled: "bool"
+  jaeger_protocol: "list(http|https)"
+  jaeger_host: "str"
+  jaeger_port: "port"
+  environment: "list(production|development)"
+  smtp_host: "str"
+  smtp_port: "port"
+  smtp_username: "str"
+  smtp_password: "password"
+  smtp_secure: "bool"
+  smtp_secure_type: "list(starttls|ssl)"
   behind_proxy: "bool"
   cors_origins: "str"
   cors_methods: "str"

@@ -71,9 +71,37 @@ export DB_SCHEMA=$(bashio::config 'postgres_schema')
 # Application configuration
 export SECRET_KEY=$(bashio::config 'secret_key')
 export FERNET_KEY=$(bashio::config 'fernet_key')
+export ENDURAIN_HOST=$(bashio::config 'endurian_host')
 export APP_TITLE=$(bashio::config 'app_title')
 export APP_DESCRIPTION=$(bashio::config 'app_description')
 export APP_VERSION=$(bashio::config 'app_version')
+
+# Optional environment variables with defaults
+export UID=8080
+export GID=8080
+export TZ=$(bashio::config 'timezone')
+export DB_TYPE=postgres
+export REVERSE_GEO_PROVIDER=$(bashio::config 'reverse_geo_provider')
+export PHOTON_API_HOST=$(bashio::config 'photon_api_host')
+export PHOTON_API_USE_HTTPS=$(bashio::config 'photon_api_use_https')
+export NOMINATIM_API_HOST=$(bashio::config 'nominatim_api_host')
+export NOMINATIM_API_USE_HTTPS=$(bashio::config 'nominatim_api_use_https')
+export GEOCODES_MAPS_API=$(bashio::config 'geocodes_maps_api')
+export REVERSE_GEO_RATE_LIMIT=$(bashio::config 'reverse_geo_rate_limit')
+export ALGORITHM=HS256
+export ACCESS_TOKEN_EXPIRE_MINUTES=$(bashio::config 'access_token_expire_minutes')
+export REFRESH_TOKEN_EXPIRE_DAYS=$(bashio::config 'refresh_token_expire_days')
+export JAEGER_ENABLED=$(bashio::config 'jaeger_enabled')
+export JAEGER_PROTOCOL=$(bashio::config 'jaeger_protocol')
+export JAEGER_HOST=$(bashio::config 'jaeger_host')
+export JAEGER_PORT=$(bashio::config 'jaeger_port')
+export ENVIRONMENT=$(bashio::config 'environment')
+export SMTP_HOST=$(bashio::config 'smtp_host')
+export SMTP_PORT=$(bashio::config 'smtp_port')
+export SMTP_USERNAME=$(bashio::config 'smtp_username')
+export SMTP_PASSWORD=$(bashio::config 'smtp_password')
+export SMTP_SECURE=$(bashio::config 'smtp_secure')
+export SMTP_SECURE_TYPE=$(bashio::config 'smtp_secure_type')
 
 # CORS configuration
 export CORS_ORIGINS=$(bashio::config 'cors_origins')
