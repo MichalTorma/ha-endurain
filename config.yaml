@@ -1,6 +1,6 @@
 name: "Endurain Fitness Tracker"
 description: "Self-hosted fitness tracking application with PostgreSQL support"
-version: "0.6.0"
+version: "0.6.1"
 slug: "endurain"
 arch:
   - aarch64
