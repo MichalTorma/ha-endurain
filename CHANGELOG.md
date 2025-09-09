@@ -5,6 +5,23 @@ All notable changes to this add-on will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.5.0] - 2024-12-XX
+
+### Changed
+- **BREAKING**: Replaced custom FastAPI middleware with native uvicorn `--root-path` support
+- Simplified ingress implementation using uvicorn's built-in proxy support
+- Removed complex middleware injection system in favor of standard uvicorn configuration
+
+### Fixed
+- Fixed static asset loading issues by using proper uvicorn root path configuration
+- Resolved `NS_ERROR_CORRUPTED_CONTENT` errors with cleaner ingress implementation
+- Improved reliability and performance of ingress integration
+
+### Removed
+- Removed custom ingress middleware (replaced with native uvicorn support)
+- Removed dynamic main.py modification system
+- Simplified codebase for better maintainability
+
 ## [0.4.1] - 2024-12-XX
 
 ### Fixed
