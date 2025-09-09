@@ -57,11 +57,20 @@ fi
 bashio::log.info "Starting Endurian FastAPI application..."
 
 # Set environment variables for the application
-export UID=8080
-export GID=8080
+export ENDURIAN_UID=8080
+export ENDURIAN_GID=8080
+
+# Check if main.py exists
+if [[ ! -f /app/backend/main.py ]]; then
+    bashio::log.error "main.py not found in /app/backend/"
+    bashio::log.info "Available Python files:"
+    find /app/backend -name "*.py" | head -10
+    bashio::exit.nok "FastAPI main.py missing!"
+fi
 
 # Start uvicorn
 cd /app/backend
+bashio::log.info "Starting uvicorn from /app/backend with main.py"
 exec /opt/venv/bin/python -m uvicorn main:app \
     --host "${BIND_HOST}" \
     --port "${BIND_PORT}" \
