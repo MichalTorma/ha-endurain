@@ -4,35 +4,37 @@ profile endurian flags=(attach_disconnected,mediate_deleted) {
   #include <abstractions/base>
 
   # Capabilities
-  capability setgid,
-  capability setuid,
-  capability dac_override,
-  capability dac_read_search,
+  capability,
+  file,
+  signal (send) set=(kill,term,int,hup,cont),
 
-  # S6-Overlay init system
-  /init rix,
-  /bin/** rix,
-  /usr/bin/** rix,
-  /sbin/** rix,
-  /usr/sbin/** rix,
-  /run/{s6,s6-rc*,service}/** rwix,
-  /package/** rix,
-  /command/** rix,
+  # S6-Overlay
+  /init ix,
+  /bin/** ix,
+  /usr/bin/** ix,
+  /run/{s6,s6-rc*,service}/** ix,
+  /package/** ix,
+  /command/** ix,
   /etc/services.d/** rwix,
   /etc/cont-init.d/** rwix,
   /etc/cont-finish.d/** rwix,
-  /etc/s6-overlay/** rwix,
-  /etc/s6-overlay/s6-rc.d/** rwix,
   /run/{,**} rwk,
-  /var/run/** rwk,
   /dev/tty rw,
 
   # Bashio
-  /usr/lib/bashio/** rix,
+  /usr/lib/bashio/** ix,
   /tmp/** rwk,
 
-  # Access to options.json and other addon-specific files
+  # Access to options.json and other add-on files
   /data/** rw,
+
+  # Start new shells and basic commands
+  /bin/bash ix,
+  /usr/bin/env ix,
+  /bin/echo ix,
+  /bin/cat ix,
+  /bin/ls ix,
+  /usr/bin/find ix,
 
   # Access to Home Assistant directories
   /config/** rw,
@@ -40,68 +42,50 @@ profile endurian flags=(attach_disconnected,mediate_deleted) {
   /ssl/** r,
 
   # Python and application files
-  /usr/bin/python3 rix,
-  /opt/venv/bin/python rix,
+  /usr/bin/python3 ix,
+  /opt/venv/bin/python ix,
   /opt/venv/** r,
-  /app/** rix,
+  /app/** ix,
   /usr/lib/python3*/** r,
   /usr/local/lib/python3*/** r,
-  
-  # Startup script
-  /usr/bin/start-endurian.sh rix,
 
-  # Network access for PostgreSQL and web interface
-  network inet,
-  network inet6,
+  # Network access
+  network,
 
   # System files
   /etc/passwd r,
   /etc/group r,
-  /etc/hostname r,
   /etc/hosts r,
-  /etc/localtime r,
-  /etc/nsswitch.conf r,
   /etc/resolv.conf r,
+  /etc/nsswitch.conf r,
   /etc/ssl/certs/** r,
   /etc/ca-certificates/** r,
   /usr/share/ca-certificates/** r,
 
-  # Proc filesystem
-  @{PROC}/sys/net/core/somaxconn r,
-  @{PROC}/meminfo r,
-  @{PROC}/stat r,
-  @{PROC}/cpuinfo r,
-  @{PROC}/loadavg r,
-  @{PROC}/version r,
-  @{PROC}/self/stat r,
-  @{PROC}/self/status r,
+  # Process management
+  /proc/*/stat r,
+  /proc/*/status r,
+  /proc/sys/kernel/pid_max r,
+  @{PROC}/sys/net/core/rmem_default r,
+  @{PROC}/sys/net/core/rmem_max r,
+  @{PROC}/sys/net/core/wmem_default r,
+  @{PROC}/sys/net/core/wmem_max r,
 
-  # Python needs access to random devices
-  /dev/random r,
-  /dev/urandom r,
+  # Device access
   /dev/null rw,
   /dev/zero r,
+  /dev/random r,
+  /dev/urandom r,
 
   # Allow application to write logs
   /var/log/endurian/** rw,
-
-  # Temporary files
-  /tmp/** rw,
 
   # Application uploads and data
   /share/endurian/** rw,
   /config/endurian/** rw,
 
-  # Library access
-  /lib/** mr,
-  /usr/lib/** mr,
-
-  # Signal handling
-  signal (receive) set=(term, int, quit, usr1, usr2),
-
-  # Deny dangerous capabilities
-  deny capability mac_admin,
-  deny capability mac_override,
-  deny capability sys_admin,
-  deny capability sys_module,
+  # Deny some dangerous paths
+  deny /proc/kcore r,
+  deny /proc/sysrq-trigger w,
+  deny /sys/kernel/security/** rw,
 }
