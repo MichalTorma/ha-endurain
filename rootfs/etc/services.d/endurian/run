@@ -53,9 +53,16 @@ else
     ls -la /opt/ || bashio::log.error "Opt directory doesn't exist"
 fi
 
-# For now, just sleep to keep the service running and visible in logs
-bashio::log.info "Starting infinite loop for testing..."
-while true; do
-    bashio::log.info "Endurian service is running... (test mode)"
-    sleep 30
-done
+# Start the actual Endurian application
+bashio::log.info "Starting Endurian FastAPI application..."
+
+# Set environment variables for the application
+export UID=8080
+export GID=8080
+
+# Start uvicorn
+cd /app/backend
+exec /opt/venv/bin/python -m uvicorn main:app \
+    --host "${BIND_HOST}" \
+    --port "${BIND_PORT}" \
+    --log-level "${LOG_LEVEL,,}"

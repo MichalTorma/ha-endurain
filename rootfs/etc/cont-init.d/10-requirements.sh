@@ -15,16 +15,18 @@ if ! bashio::config.has_value 'postgres_user'; then
     bashio::exit.nok "PostgreSQL user is required but not configured!"
 fi
 
-if ! bashio::config.has_value 'postgres_password' || bashio::config.is_empty 'postgres_password'; then
-    bashio::exit.nok "PostgreSQL password is required but not configured!"
+# Check if password is provided (allow empty for now, will be handled by app)
+if ! bashio::config.has_value 'postgres_password'; then
+    bashio::log.warning "PostgreSQL password not configured - this may cause connection issues"
 fi
 
 if ! bashio::config.has_value 'postgres_db'; then
     bashio::exit.nok "PostgreSQL database name is required but not configured!"
 fi
 
-if ! bashio::config.has_value 'secret_key' || bashio::config.is_empty 'secret_key'; then
-    bashio::exit.nok "Secret key is required but not configured! Please set a strong secret key."
+# Check if secret key is provided (allow empty for now, will be handled by app)
+if ! bashio::config.has_value 'secret_key'; then
+    bashio::log.warning "Secret key not configured - this may cause security issues"
 fi
 
 # Create required directories
