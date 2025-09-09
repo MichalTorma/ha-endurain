@@ -21,6 +21,8 @@ profile endurian flags=(attach_disconnected,mediate_deleted) {
   /etc/services.d/** rwix,
   /etc/cont-init.d/** rwix,
   /etc/cont-finish.d/** rwix,
+  /etc/s6-overlay/** rwix,
+  /etc/s6-overlay/s6-rc.d/** rwix,
   /run/{,**} rwk,
   /var/run/** rwk,
   /dev/tty rw,
