@@ -15,10 +15,10 @@ A self-hosted fitness tracking application for monitoring workouts, activities, 
 Add-on configuration:
 
 ```yaml
-endurian_version: "v1.7.5"
+endurian_version: "v0.14.0"
 app_title: "Endurian Fitness Tracker"
 app_description: "Self-hosted fitness tracking application"
-app_version: "1.7.5"
+app_version: "0.14.0"
 postgres_host: "localhost"
 postgres_port: 5432
 postgres_user: "endurian"

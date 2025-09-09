@@ -11,4 +11,4 @@ labels:
   org.opencontainers.image.licenses: "MIT"
   org.opencontainers.image.documentation: "https://github.com/MichalTorma/ha-endurian/blob/main/README.md"
 args:
-  ENDURIAN_VERSION: "v1.7.5"
+  ENDURIAN_VERSION: "v0.14.0"

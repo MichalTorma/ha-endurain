@@ -11,7 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Initial release of Endurian Fitness Tracker add-on
 - Support for all major architectures (amd64, aarch64, armv7, armhf, i386)
-- Self-hosted fitness tracking application based on Endurian v1.7.5
+- Self-hosted fitness tracking application based on Endurian v0.14.0
 - External PostgreSQL database support for data persistence
 - Configurable CORS settings for web interface access
 - File upload support for workout data and media

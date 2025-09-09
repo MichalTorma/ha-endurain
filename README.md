@@ -76,7 +76,7 @@ max_content_length: 16777216
 Add-on configuration:
 
 ```yaml
-endurian_version: "v1.7.5"
+endurian_version: "v0.14.0"
 postgres_host: "localhost"
 postgres_port: 5432
 postgres_user: "endurian"

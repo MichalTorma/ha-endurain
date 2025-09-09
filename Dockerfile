@@ -6,7 +6,7 @@ SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
 # Build arguments
 ARG BUILD_ARCH
-ARG ENDURIAN_VERSION=v1.7.5
+ARG ENDURIAN_VERSION=v0.14.0
 
 # Install base dependencies
 RUN \
