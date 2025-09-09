@@ -1,0 +1,53 @@
+#!/usr/bin/with-contenv bashio
+# ==============================================================================
+# Home Assistant Community Add-on: Endurian
+# Runs the Endurian FastAPI application
+# ==============================================================================
+
+bashio::log.info "Starting Endurian application..."
+
+# Get configuration values
+DEBUG=$(bashio::config 'debug')
+LOG_LEVEL=$(bashio::config 'log_level')
+WORKERS=$(bashio::config 'workers')
+BIND_HOST=$(bashio::config 'bind_host')
+BIND_PORT=$(bashio::config 'bind_port')
+
+# Set logging level based on add-on debug setting
+if bashio::config.true 'debug'; then
+    export LOG_LEVEL="DEBUG"
+    bashio::log.debug "Debug mode enabled"
+fi
+
+# Change to backend directory
+cd /app/backend || bashio::exit.nok "Failed to change to backend directory"
+
+# Source environment file
+if [[ -f .env ]]; then
+    source .env
+    bashio::log.debug "Environment file loaded"
+else
+    bashio::log.warning "Environment file not found, using defaults"
+fi
+
+# Set environment variables for the application
+export UID=8080
+export GID=8080
+
+bashio::log.info "Starting Endurian with the following configuration:"
+bashio::log.info "- Host: ${BIND_HOST}"
+bashio::log.info "- Port: ${BIND_PORT}"
+bashio::log.info "- Workers: ${WORKERS}"
+bashio::log.info "- Log Level: ${LOG_LEVEL}"
+bashio::log.info "- Debug: ${DEBUG}"
+
+# Switch to endurian user and start the application
+exec s6-setuidgid endurian \
+    python3 -m uvicorn main:app \
+        --host "${BIND_HOST}" \
+        --port "${BIND_PORT}" \
+        --workers "${WORKERS}" \
+        --log-level "${LOG_LEVEL,,}" \
+        --access-log \
+        --loop uvloop \
+        --http httptools

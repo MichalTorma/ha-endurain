@@ -1,0 +1,67 @@
+configuration:
+  endurian_version:
+    name: Endurian Version
+    description: Version of Endurian to install and run
+  app_title:
+    name: Application Title
+    description: Title displayed in the Endurian web interface
+  app_description:
+    name: Application Description
+    description: Description shown in the application
+  app_version:
+    name: Application Version
+    description: Version string displayed in the interface
+  postgres_host:
+    name: PostgreSQL Host
+    description: Hostname or IP address of the PostgreSQL server
+  postgres_port:
+    name: PostgreSQL Port
+    description: Port number for PostgreSQL connection
+  postgres_user:
+    name: PostgreSQL User
+    description: Username for PostgreSQL database authentication
+  postgres_password:
+    name: PostgreSQL Password
+    description: Password for PostgreSQL database authentication
+  postgres_db:
+    name: PostgreSQL Database
+    description: Name of the PostgreSQL database for Endurian
+  postgres_schema:
+    name: PostgreSQL Schema
+    description: Database schema to use (default is 'public')
+  secret_key:
+    name: Secret Key
+    description: Secret key for application security (required, use a long random string)
+  behind_proxy:
+    name: Behind Proxy
+    description: Enable if running behind a reverse proxy
+  cors_origins:
+    name: CORS Origins
+    description: Allowed origins for CORS (use '*' for development, specific domains for production)
+  cors_methods:
+    name: CORS Methods
+    description: Allowed HTTP methods for CORS
+  cors_headers:
+    name: CORS Headers
+    description: Allowed headers for CORS
+  log_level:
+    name: Log Level
+    description: Logging level for the application
+  debug:
+    name: Debug Mode
+    description: Enable debug mode for detailed logging
+  workers:
+    name: Workers
+    description: Number of worker processes (1 is usually sufficient)
+  bind_host:
+    name: Bind Host
+    description: Host address to bind the server to
+  bind_port:
+    name: Bind Port
+    description: Port number for the web interface
+  upload_folder:
+    name: Upload Folder
+    description: Directory path for uploaded files
+  max_content_length:
+    name: Max Content Length
+    description: Maximum file upload size in bytes

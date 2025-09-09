@@ -1,0 +1,97 @@
+#include <tunables/global>
+
+profile endurian flags=(attach_disconnected,mediate_deleted) {
+  #include <abstractions/base>
+
+  # Capabilities
+  capability setgid,
+  capability setuid,
+  capability dac_override,
+  capability dac_read_search,
+
+  # S6-Overlay
+  /init ix,
+  /bin/** ix,
+  /usr/bin/** ix,
+  /run/{s6,s6-rc*,service}/** ix,
+  /package/** ix,
+  /command/** ix,
+  /etc/services.d/** rwix,
+  /etc/cont-init.d/** rwix,
+  /etc/cont-finish.d/** rwix,
+  /run/{,**} rwk,
+  /dev/tty rw,
+
+  # Bashio
+  /usr/lib/bashio/** ix,
+  /tmp/** rwk,
+
+  # Access to options.json and other addon-specific files
+  /data/** rw,
+
+  # Start new profile
+  /usr/bin/endurian cx -> endurian,
+
+  profile endurian flags=(attach_disconnected,mediate_deleted) {
+    #include <abstractions/base>
+
+    # Receive signals from S6-Overlay
+    signal receive,
+
+    # Access to options.json and other addon-specific files
+    /data/** rw,
+
+    # Access to Home Assistant directories
+    /config/** rw,
+    /share/** rw,
+    /ssl/** r,
+
+    # Python and application files
+    /usr/bin/python3 rix,
+    /app/** rix,
+    /usr/lib/python3*/** r,
+
+    # Network access for PostgreSQL and web interface
+    network inet,
+    network inet6,
+
+    # System files
+    /etc/passwd r,
+    /etc/group r,
+    /etc/hostname r,
+    /etc/hosts r,
+    /etc/localtime r,
+    /etc/nsswitch.conf r,
+    /etc/resolv.conf r,
+    /etc/ssl/certs/** r,
+    /etc/ca-certificates/** r,
+    /usr/share/ca-certificates/** r,
+
+    # Proc filesystem
+    @{PROC}/sys/net/core/somaxconn r,
+    @{PROC}/meminfo r,
+    @{PROC}/stat r,
+    @{PROC}/cpuinfo r,
+    @{PROC}/loadavg r,
+
+    # Python needs access to random devices
+    /dev/random r,
+    /dev/urandom r,
+
+    # Allow application to write logs
+    /var/log/endurian/** rw,
+
+    # Temporary files
+    /tmp/** rw,
+
+    # Application uploads and data
+    /share/endurian/** rw,
+    /config/endurian/** rw,
+
+    # Deny dangerous capabilities
+    deny capability mac_admin,
+    deny capability mac_override,
+    deny capability sys_admin,
+    deny capability sys_module,
+  }
+}

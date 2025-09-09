@@ -1,0 +1,71 @@
+name: "Endurian Fitness Tracker"
+description: "Self-hosted fitness tracking application with PostgreSQL support"
+version: "0.1.1"
+slug: "endurian"
+arch:
+  - aarch64
+  - amd64
+  - armhf
+  - armv7
+  - i386
+init: false
+startup: application
+boot: manual
+hassio_api: true
+hassio_role: default
+host_network: false
+privileged: []
+ports:
+  8080/tcp: 8080
+ports_description:
+  8080/tcp: "Endurian web interface"
+map:
+  - config:rw
+  - ssl:ro
+  - share:rw
+options:
+  endurian_version: "v1.7.5"
+  app_title: "Endurian Fitness Tracker"
+  app_description: "Self-hosted fitness tracking application"
+  app_version: "1.7.5"
+  postgres_host: "localhost"
+  postgres_port: 5432
+  postgres_user: "endurian"
+  postgres_password: ""
+  postgres_db: "endurian"
+  postgres_schema: "public"
+  secret_key: ""
+  behind_proxy: false
+  cors_origins: "*"
+  cors_methods: "GET,POST,PUT,DELETE"
+  cors_headers: "*"
+  log_level: "INFO"
+  debug: false
+  workers: 1
+  bind_host: "0.0.0.0"
+  bind_port: 8080
+  upload_folder: "/share/endurian/uploads"
+  max_content_length: 16777216
+schema:
+  endurian_version: "str"
+  app_title: "str"
+  app_description: "str"
+  app_version: "str"
+  postgres_host: "str"
+  postgres_port: "port"
+  postgres_user: "str"
+  postgres_password: "password"
+  postgres_db: "str"
+  postgres_schema: "str"
+  secret_key: "password"
+  behind_proxy: "bool"
+  cors_origins: "str"
+  cors_methods: "str"
+  cors_headers: "str"
+  log_level: "list(DEBUG|INFO|WARNING|ERROR|CRITICAL)"
+  debug: "bool"
+  workers: "int(1,10)"
+  bind_host: "str"
+  bind_port: "port"
+  upload_folder: "str"
+  max_content_length: "int"
