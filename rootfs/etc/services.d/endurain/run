@@ -21,7 +21,7 @@ DEBUG=$(bashio::config 'debug')
 LOG_LEVEL=$(bashio::config 'log_level')
 WORKERS=$(bashio::config 'workers')
 BIND_HOST=$(bashio::config 'bind_host')
-BIND_PORT=$(bashio::config 'bind_port')
+BIND_PORT=8081  # nginx will proxy from 8080 to 8081
 
 bashio::log.info "Configuration loaded:"
 bashio::log.info "- Host: ${BIND_HOST}"
@@ -126,32 +126,31 @@ if [[ ! -f /app/backend/main.py ]]; then
 fi
 
 # Set ingress environment variables for uvicorn
+bashio::log.info "=== INGRESS DEBUGGING ==="
+bashio::log.info "bashio::addon.ingress_entry: $(bashio::addon.ingress_entry)"
+bashio::log.info "bashio::var.has_value check: $(bashio::var.has_value "$(bashio::addon.ingress_entry)")"
+
 if bashio::var.has_value "$(bashio::addon.ingress_entry)"; then
     export INGRESS_PATH=$(bashio::addon.ingress_entry)
     export ROOT_PATH=$(bashio::addon.ingress_entry)
-    bashio::log.info "Ingress enabled. Root path: ${ROOT_PATH}"
+    # Override ENDURAIN_HOST for ingress - this might be what the frontend uses for asset paths
+    export ENDURAIN_HOST="${ROOT_PATH}"
+    bashio::log.info "✅ Ingress enabled. Root path: '${ROOT_PATH}'"
+    bashio::log.info "✅ ENDURAIN_HOST set to: '${ENDURAIN_HOST}'"
     UVICORN_ROOT_PATH="--root-path ${ROOT_PATH}"
+    bashio::log.info "Uvicorn will use: ${UVICORN_ROOT_PATH}"
 else
-    bashio::log.info "No ingress detected, using standard configuration"
+    bashio::log.info "❌ No ingress detected, using standard configuration"
     UVICORN_ROOT_PATH=""
 fi
 
 # Start uvicorn
 cd /app/backend
-bashio::log.info "Starting uvicorn from /app/backend"
-if [[ -n "${UVICORN_ROOT_PATH}" ]]; then
-    bashio::log.info "Using root path for ingress: ${ROOT_PATH}"
-    exec /opt/venv/bin/python -m uvicorn main:app \
-        --host "${BIND_HOST}" \
-        --port "${BIND_PORT}" \
-        --log-level "${LOG_LEVEL,,}" \
-        --proxy-headers \
-        --forwarded-allow-ips "*" \
-        ${UVICORN_ROOT_PATH}
-else
-    bashio::log.info "Using standard configuration"
-    exec /opt/venv/bin/python -m uvicorn main:app \
-        --host "${BIND_HOST}" \
-        --port "${BIND_PORT}" \
-        --log-level "${LOG_LEVEL,,}"
-fi
+bashio::log.info "Starting uvicorn on port ${BIND_PORT} (nginx will proxy to 8080)"
+# Always use proxy headers since we're behind nginx
+exec /opt/venv/bin/python -m uvicorn main:app \
+    --host "${BIND_HOST}" \
+    --port "${BIND_PORT}" \
+    --log-level "${LOG_LEVEL,,}" \
+    --proxy-headers \
+    --forwarded-allow-ips "*"

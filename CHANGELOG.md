@@ -5,6 +5,23 @@ All notable changes to this add-on will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.6.0] - 2024-12-XX
+
+### Added
+- **NEW**: nginx reverse proxy for robust ingress support
+- Dedicated nginx service to handle Home Assistant ingress path rewriting
+- Enhanced ingress debugging and logging
+
+### Changed
+- **ARCHITECTURE**: Endurain now runs on port 8081, nginx proxies on port 8080
+- Replaced uvicorn --root-path approach with nginx-based solution
+- Improved handling of static asset paths for SPA applications
+
+### Fixed
+- Fixed static asset loading issues with nginx path rewriting
+- Resolved hardcoded absolute path problems in Endurain frontend
+- Better ingress path detection and configuration
+
 ## [0.5.0] - 2024-12-XX
 
 ### Changed

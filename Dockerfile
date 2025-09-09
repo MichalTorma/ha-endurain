@@ -32,7 +32,8 @@ RUN \
         musl-dev \
         postgresql-dev \
         postgresql-client \
-        pkgconfig
+        pkgconfig \
+        nginx
 
 # Create endurain user and directories
 RUN \
