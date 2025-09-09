@@ -9,89 +9,94 @@ profile endurian flags=(attach_disconnected,mediate_deleted) {
   capability dac_override,
   capability dac_read_search,
 
-  # S6-Overlay
-  /init ix,
-  /bin/** ix,
-  /usr/bin/** ix,
-  /run/{s6,s6-rc*,service}/** ix,
-  /package/** ix,
-  /command/** ix,
+  # S6-Overlay init system
+  /init rix,
+  /bin/** rix,
+  /usr/bin/** rix,
+  /sbin/** rix,
+  /usr/sbin/** rix,
+  /run/{s6,s6-rc*,service}/** rwix,
+  /package/** rix,
+  /command/** rix,
   /etc/services.d/** rwix,
   /etc/cont-init.d/** rwix,
   /etc/cont-finish.d/** rwix,
   /run/{,**} rwk,
+  /var/run/** rwk,
   /dev/tty rw,
 
   # Bashio
-  /usr/lib/bashio/** ix,
+  /usr/lib/bashio/** rix,
   /tmp/** rwk,
 
   # Access to options.json and other addon-specific files
   /data/** rw,
 
-  # Start new profile
-  /usr/bin/endurian cx -> endurian,
+  # Access to Home Assistant directories
+  /config/** rw,
+  /share/** rw,
+  /ssl/** r,
 
-  profile endurian flags=(attach_disconnected,mediate_deleted) {
-    #include <abstractions/base>
+  # Python and application files
+  /usr/bin/python3 rix,
+  /opt/venv/bin/python rix,
+  /opt/venv/** r,
+  /app/** rix,
+  /usr/lib/python3*/** r,
+  /usr/local/lib/python3*/** r,
 
-    # Receive signals from S6-Overlay
-    signal receive,
+  # Network access for PostgreSQL and web interface
+  network inet,
+  network inet6,
 
-    # Access to options.json and other addon-specific files
-    /data/** rw,
+  # System files
+  /etc/passwd r,
+  /etc/group r,
+  /etc/hostname r,
+  /etc/hosts r,
+  /etc/localtime r,
+  /etc/nsswitch.conf r,
+  /etc/resolv.conf r,
+  /etc/ssl/certs/** r,
+  /etc/ca-certificates/** r,
+  /usr/share/ca-certificates/** r,
 
-    # Access to Home Assistant directories
-    /config/** rw,
-    /share/** rw,
-    /ssl/** r,
+  # Proc filesystem
+  @{PROC}/sys/net/core/somaxconn r,
+  @{PROC}/meminfo r,
+  @{PROC}/stat r,
+  @{PROC}/cpuinfo r,
+  @{PROC}/loadavg r,
+  @{PROC}/version r,
+  @{PROC}/self/stat r,
+  @{PROC}/self/status r,
 
-    # Python and application files
-    /usr/bin/python3 rix,
-    /app/** rix,
-    /usr/lib/python3*/** r,
+  # Python needs access to random devices
+  /dev/random r,
+  /dev/urandom r,
+  /dev/null rw,
+  /dev/zero r,
 
-    # Network access for PostgreSQL and web interface
-    network inet,
-    network inet6,
+  # Allow application to write logs
+  /var/log/endurian/** rw,
 
-    # System files
-    /etc/passwd r,
-    /etc/group r,
-    /etc/hostname r,
-    /etc/hosts r,
-    /etc/localtime r,
-    /etc/nsswitch.conf r,
-    /etc/resolv.conf r,
-    /etc/ssl/certs/** r,
-    /etc/ca-certificates/** r,
-    /usr/share/ca-certificates/** r,
+  # Temporary files
+  /tmp/** rw,
 
-    # Proc filesystem
-    @{PROC}/sys/net/core/somaxconn r,
-    @{PROC}/meminfo r,
-    @{PROC}/stat r,
-    @{PROC}/cpuinfo r,
-    @{PROC}/loadavg r,
+  # Application uploads and data
+  /share/endurian/** rw,
+  /config/endurian/** rw,
 
-    # Python needs access to random devices
-    /dev/random r,
-    /dev/urandom r,
+  # Library access
+  /lib/** mr,
+  /usr/lib/** mr,
 
-    # Allow application to write logs
-    /var/log/endurian/** rw,
+  # Signal handling
+  signal (receive) set=(term, int, quit, usr1, usr2),
 
-    # Temporary files
-    /tmp/** rw,
-
-    # Application uploads and data
-    /share/endurian/** rw,
-    /config/endurian/** rw,
-
-    # Deny dangerous capabilities
-    deny capability mac_admin,
-    deny capability mac_override,
-    deny capability sys_admin,
-    deny capability sys_module,
-  }
+  # Deny dangerous capabilities
+  deny capability mac_admin,
+  deny capability mac_override,
+  deny capability sys_admin,
+  deny capability sys_module,
 }
