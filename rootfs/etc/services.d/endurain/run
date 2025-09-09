@@ -147,10 +147,21 @@ fi
 # Start uvicorn
 cd /app/backend
 bashio::log.info "Starting uvicorn on port ${BIND_PORT} (nginx will proxy to 8080)"
-# Always use proxy headers since we're behind nginx
-exec /opt/venv/bin/python -m uvicorn main:app \
-    --host "${BIND_HOST}" \
-    --port "${BIND_PORT}" \
-    --log-level "${LOG_LEVEL,,}" \
-    --proxy-headers \
-    --forwarded-allow-ips "*"
+if [[ -n "${UVICORN_ROOT_PATH}" ]]; then
+    bashio::log.info "Using root path for ingress: ${ROOT_PATH}"
+    exec /opt/venv/bin/python -m uvicorn main:app \
+        --host "${BIND_HOST}" \
+        --port "${BIND_PORT}" \
+        --log-level "${LOG_LEVEL,,}" \
+        --proxy-headers \
+        --forwarded-allow-ips "*" \
+        ${UVICORN_ROOT_PATH}
+else
+    bashio::log.info "No ingress root path, using standard configuration"
+    exec /opt/venv/bin/python -m uvicorn main:app \
+        --host "${BIND_HOST}" \
+        --port "${BIND_PORT}" \
+        --log-level "${LOG_LEVEL,,}" \
+        --proxy-headers \
+        --forwarded-allow-ips "*"
+fi
