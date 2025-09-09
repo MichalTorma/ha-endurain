@@ -60,7 +60,8 @@ RUN \
     echo "Building frontend..." \
     && npm ci --prefer-offline \
     && npm run build \
-    && cp -r dist/* /app/frontend/
+    && mkdir -p /app/frontend/dist \
+    && cp -r dist/* /app/frontend/dist/
 
 # Install Python dependencies in virtual environment
 WORKDIR /tmp/backend
