@@ -93,19 +93,20 @@ openssl rand -hex 32
 
 **Proxy Configuration**
 ```yaml
-behind_proxy: false
+behind_proxy: true
 ```
-Set to `true` if running behind a reverse proxy (like NGINX Proxy Manager).
+Set to `true` when using Home Assistant ingress (recommended) or when running behind a reverse proxy (like NGINX Proxy Manager). This should be `true` for proper sidebar integration.
 
 #### CORS Configuration
 
-For web interface access:
+For web interface access through Home Assistant ingress:
 ```yaml
-cors_origins: "*"  # Allow all origins (development)
-cors_origins: "https://your-domain.com,http://homeassistant.local:8123"  # Production
+cors_origins: "*"  # Allow all origins for ingress compatibility
 cors_methods: "GET,POST,PUT,DELETE"
 cors_headers: "*"
 ```
+
+**Ingress Support**: The addon automatically detects Home Assistant ingress and configures the FastAPI application with proper middleware to handle path rewriting and proxy headers.
 
 #### Server Configuration
 

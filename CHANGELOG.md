@@ -5,6 +5,33 @@ All notable changes to this add-on will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.4.1] - 2024-12-XX
+
+### Fixed
+- Fixed hardcoded CORS values in ingress middleware to use addon configuration
+- Middleware now properly respects user's `cors_origins`, `cors_methods`, and `cors_headers` settings
+- Improved configurability and customization of CORS settings for ingress
+
+## [0.4.0] - 2024-12-XX
+
+### Added
+- **NEW**: Proper Home Assistant ingress support with FastAPI middleware
+- Custom ingress middleware to handle X-Ingress-Path header rewriting
+- Dynamic FastAPI app modification for ingress compatibility
+- Automatic ingress detection and configuration
+
+### Fixed
+- Fixed ingress integration for proper Home Assistant sidebar embedding
+- Resolved static asset loading issues with ingress proxy
+- Added proper uvicorn proxy headers support (`--proxy-headers`, `--forwarded-allow-ips`)
+- Configured `behind_proxy: true` for ingress environments
+
+### Technical Improvements
+- Implemented FastAPI middleware injection system
+- Added automatic main.py modification for ingress support
+- Enhanced uvicorn configuration for proxy environments
+- Improved ingress path detection and environment variable handling
+
 ## [0.3.8] - 2024-12-XX
 
 ### Fixed

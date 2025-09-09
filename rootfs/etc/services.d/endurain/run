@@ -125,10 +125,56 @@ if [[ ! -f /app/backend/main.py ]]; then
     bashio::exit.nok "FastAPI main.py missing!"
 fi
 
+# Set ingress environment variables for the application
+if bashio::var.has_value "$(bashio::addon.ingress_entry)"; then
+    export INGRESS_PATH=$(bashio::addon.ingress_entry)
+    bashio::log.info "Ingress enabled. Entry point: ${INGRESS_PATH}"
+    
+    # Copy our ingress middleware to the backend directory
+    cp /app/ingress_middleware.py /app/backend/
+    
+    # Create a modified main.py that includes our ingress middleware
+    if [[ ! -f /app/backend/main_original.py ]]; then
+        cp /app/backend/main.py /app/backend/main_original.py
+        bashio::log.info "Backed up original main.py"
+    fi
+    
+    # Inject ingress middleware into main.py
+    cat > /app/backend/main_with_ingress.py << 'EOF'
+# Import the original main module
+import sys
+import os
+sys.path.append('/app/backend')
+
+# Import original app
+from main_original import app
+
+# Import our ingress middleware
+from ingress_middleware import setup_ingress_middleware
+
+# Setup ingress middleware
+app = setup_ingress_middleware(app)
+
+# Make the app available for uvicorn
+if __name__ == "__main__":
+    import uvicorn
+    uvicorn.run(app, host="0.0.0.0", port=8080)
+EOF
+    
+    # Use the modified main file
+    MAIN_MODULE="main_with_ingress:app"
+    bashio::log.info "Using ingress-enabled main module"
+else
+    bashio::log.info "No ingress detected, using standard configuration"
+    MAIN_MODULE="main:app"
+fi
+
 # Start uvicorn
 cd /app/backend
-bashio::log.info "Starting uvicorn from /app/backend with main.py"
-exec /opt/venv/bin/python -m uvicorn main:app \
+bashio::log.info "Starting uvicorn from /app/backend with module: ${MAIN_MODULE}"
+exec /opt/venv/bin/python -m uvicorn "${MAIN_MODULE}" \
     --host "${BIND_HOST}" \
     --port "${BIND_PORT}" \
-    --log-level "${LOG_LEVEL,,}"
+    --log-level "${LOG_LEVEL,,}" \
+    --proxy-headers \
+    --forwarded-allow-ips "*"
