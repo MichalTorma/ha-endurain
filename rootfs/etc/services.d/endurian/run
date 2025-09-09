@@ -57,9 +57,6 @@ fi
 bashio::log.info "Starting Endurian FastAPI application..."
 
 # Set environment variables for the application from Home Assistant config
-export ENDURIAN_UID=8080
-export ENDURIAN_GID=8080
-
 # Database configuration
 export DB_HOST=$(bashio::config 'postgres_host')
 export DB_PORT=$(bashio::config 'postgres_port')
@@ -77,8 +74,8 @@ export APP_DESCRIPTION=$(bashio::config 'app_description')
 export APP_VERSION=$(bashio::config 'app_version')
 
 # Optional environment variables with defaults
-export UID=8080
-export GID=8080
+export ENDURIAN_UID=8080
+export ENDURIAN_GID=8080
 export TZ=$(bashio::config 'timezone')
 export DB_TYPE=postgres
 export REVERSE_GEO_PROVIDER=$(bashio::config 'reverse_geo_provider')
