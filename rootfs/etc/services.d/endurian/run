@@ -4,6 +4,11 @@
 # Runs the Endurian FastAPI application
 # ==============================================================================
 
+# CRITICAL TEST: This should appear in logs if s6 recognizes the service
+echo "=== ENDURIAN SERVICE STARTING ===" >&2
+echo "This message should appear if s6 recognizes the service" >&2
+
+# Also try bashio logging
 bashio::log.info "=== ENDURIAN SERVICE STARTING ==="
 bashio::log.info "This message should appear if s6 recognizes the service"
 

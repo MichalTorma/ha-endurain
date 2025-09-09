@@ -125,7 +125,11 @@ RUN \
     && echo "--- run (first lines) ---" \
     && head -10 /etc/services.d/endurian/run || true \
     && echo "--- type ---" \
-    && cat /etc/services.d/endurian/type || true
+    && cat /etc/services.d/endurian/type || true \
+    && echo "--- finish (first lines) ---" \
+    && head -5 /etc/services.d/endurian/finish || true \
+    && echo "--- checking if run is executable ---" \
+    && ls -la /etc/services.d/endurian/run || true
 
 # Set working directory to backend
 WORKDIR /app/backend
