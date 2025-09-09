@@ -55,25 +55,40 @@ bashio::log.info "- Workers: ${WORKERS}"
 bashio::log.info "- Log Level: ${LOG_LEVEL}"
 bashio::log.info "- Debug: ${DEBUG}"
 
-# Test uvicorn import first
-bashio::log.info "Testing uvicorn installation..."
-if ! /opt/venv/bin/python -c "import uvicorn; print('uvicorn version:', uvicorn.__version__)"; then
-    bashio::exit.nok "uvicorn is not properly installed!"
+# Add more debugging output first
+bashio::log.info "=== DEBUG: Service starting ==="
+bashio::log.info "Current user: $(whoami)"
+bashio::log.info "Current working directory: $(pwd)"
+bashio::log.info "Environment variables:"
+env | grep -E "(BIND|LOG_LEVEL|POSTGRES)" || bashio::log.info "No matching env vars"
+
+# Check if required files exist
+bashio::log.info "Checking required files..."
+if [[ ! -f /opt/venv/bin/python ]]; then
+    bashio::log.error "Virtual environment not found at /opt/venv/bin/python"
+    ls -la /opt/venv/bin/ || bashio::log.error "Virtual environment directory doesn't exist"
+    bashio::exit.nok "Virtual environment missing!"
 fi
 
-# Test FastAPI app import
-bashio::log.info "Testing FastAPI app import..."
-if ! /opt/venv/bin/python -c "from main import app; print('FastAPI app imported successfully')"; then
-    bashio::exit.nok "Failed to import FastAPI app from main.py!"
+if [[ ! -f /app/backend/main.py ]]; then
+    bashio::log.error "main.py not found at /app/backend/main.py"
+    bashio::log.info "Backend directory contents:"
+    ls -la /app/backend/ || bashio::log.error "Backend directory doesn't exist"
+    bashio::exit.nok "FastAPI main.py missing!"
 fi
 
-bashio::log.info "All checks passed, starting Endurian application..."
+bashio::log.info "All files exist, starting Endurian..."
 
-# Export environment variables for the startup script
-export BIND_HOST="${BIND_HOST}"
-export BIND_PORT="${BIND_PORT}"
-export LOG_LEVEL="${LOG_LEVEL,,}"
+# Set environment variables for the application
+export UID=8080
+export GID=8080
 
-# Switch to endurian user and start the application using helper script
-bashio::log.info "Executing startup script as endurian user..."
-exec s6-setuidgid endurian /usr/bin/start-endurian.sh
+# Start with direct command and explicit output redirection
+bashio::log.info "Starting uvicorn directly..."
+cd /app/backend
+
+# Use exec without s6-setuidgid first to see if that's the issue
+/opt/venv/bin/python -m uvicorn main:app \
+    --host "${BIND_HOST}" \
+    --port "${BIND_PORT}" \
+    --log-level "${LOG_LEVEL,,}"

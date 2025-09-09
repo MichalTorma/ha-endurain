@@ -46,6 +46,9 @@ profile endurian flags=(attach_disconnected,mediate_deleted) {
   /app/** rix,
   /usr/lib/python3*/** r,
   /usr/local/lib/python3*/** r,
+  
+  # Startup script
+  /usr/bin/start-endurian.sh rix,
 
   # Network access for PostgreSQL and web interface
   network inet,
