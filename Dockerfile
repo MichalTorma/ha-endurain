@@ -66,13 +66,13 @@ WORKDIR /tmp/backend
 RUN \
     echo "Installing backend dependencies..." \
     && if [ -f pyproject.toml ]; then \
-        pip install --no-cache-dir poetry \
+        pip install --no-cache-dir --break-system-packages poetry \
         && poetry self add poetry-plugin-export \
         && poetry export -f requirements.txt --output requirements.txt --without-hashes; \
     fi \
     && if [ -f requirements.txt ]; then \
-        pip install --no-cache-dir --upgrade pip \
-        && pip install --no-cache-dir --upgrade -r requirements.txt; \
+        pip install --no-cache-dir --break-system-packages --upgrade pip \
+        && pip install --no-cache-dir --break-system-packages --upgrade -r requirements.txt; \
     fi
 
 # Copy backend application
