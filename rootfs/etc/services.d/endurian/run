@@ -55,13 +55,25 @@ bashio::log.info "- Workers: ${WORKERS}"
 bashio::log.info "- Log Level: ${LOG_LEVEL}"
 bashio::log.info "- Debug: ${DEBUG}"
 
-# Switch to endurian user and start the application using virtual environment
-exec s6-setuidgid endurian \
-    /opt/venv/bin/python -m uvicorn main:app \
-        --host "${BIND_HOST}" \
-        --port "${BIND_PORT}" \
-        --workers "${WORKERS}" \
-        --log-level "${LOG_LEVEL,,}" \
-        --access-log \
-        --loop uvloop \
-        --http httptools
+# Test uvicorn import first
+bashio::log.info "Testing uvicorn installation..."
+if ! /opt/venv/bin/python -c "import uvicorn; print('uvicorn version:', uvicorn.__version__)"; then
+    bashio::exit.nok "uvicorn is not properly installed!"
+fi
+
+# Test FastAPI app import
+bashio::log.info "Testing FastAPI app import..."
+if ! /opt/venv/bin/python -c "from main import app; print('FastAPI app imported successfully')"; then
+    bashio::exit.nok "Failed to import FastAPI app from main.py!"
+fi
+
+bashio::log.info "All checks passed, starting Endurian application..."
+
+# Export environment variables for the startup script
+export BIND_HOST="${BIND_HOST}"
+export BIND_PORT="${BIND_PORT}"
+export LOG_LEVEL="${LOG_LEVEL,,}"
+
+# Switch to endurian user and start the application using helper script
+bashio::log.info "Executing startup script as endurian user..."
+exec s6-setuidgid endurian /usr/bin/start-endurian.sh

@@ -83,8 +83,19 @@ RUN \
 
 # Copy backend application
 RUN \
-    cp -r app/* /app/backend/ \
-    && ls -la /app/backend/
+    echo "Checking if backend app directory exists..." \
+    && ls -la /tmp/backend/ \
+    && if [ -d "app" ]; then \
+        echo "Copying backend application files..." \
+        && cp -r app/* /app/backend/ \
+        && echo "Backend files copied successfully:" \
+        && ls -la /app/backend/; \
+    else \
+        echo "No app directory found, copying all backend files..." \
+        && cp -r . /app/backend/ \
+        && echo "All backend files copied:" \
+        && ls -la /app/backend/; \
+    fi
 
 # Set proper permissions
 RUN \
