@@ -31,6 +31,7 @@ RUN \
         gcc \
         musl-dev \
         postgresql-dev \
+        postgresql-client \
         pkgconfig
 
 # Create endurian user and directories
@@ -74,7 +75,10 @@ RUN \
         && poetry export -f requirements.txt --output requirements.txt --without-hashes; \
     fi \
     && if [ -f requirements.txt ]; then \
-        pip install --no-cache-dir --upgrade -r requirements.txt; \
+        echo "Filtering out MySQL dependencies and replacing with PostgreSQL..." \
+        && sed -i '/^mysqlclient==/d' requirements.txt \
+        && echo "psycopg2-binary>=2.9.0" >> requirements.txt \
+        && pip install --no-cache-dir --upgrade -r requirements.txt; \
     fi
 
 # Copy backend application
