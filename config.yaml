@@ -1,6 +1,6 @@
 name: "Endurian Fitness Tracker"
 description: "Self-hosted fitness tracking application with PostgreSQL support"
-version: "0.2.9"
+version: "0.3.0"
 slug: "endurian"
 arch:
   - aarch64
@@ -40,6 +40,7 @@ options:
   postgres_db: "endurian"
   postgres_schema: "public"
   secret_key: ""
+  fernet_key: ""
   behind_proxy: false
   cors_origins: "*"
   cors_methods: "GET,POST,PUT,DELETE"
@@ -63,6 +64,7 @@ schema:
   postgres_db: "str"
   postgres_schema: "str"
   secret_key: "password"
+  fernet_key: "password"
   behind_proxy: "bool"
   cors_origins: "str"
   cors_methods: "str"

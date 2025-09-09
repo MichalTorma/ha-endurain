@@ -70,6 +70,7 @@ export DB_SCHEMA=$(bashio::config 'postgres_schema')
 
 # Application configuration
 export SECRET_KEY=$(bashio::config 'secret_key')
+export FERNET_KEY=$(bashio::config 'fernet_key')
 export APP_TITLE=$(bashio::config 'app_title')
 export APP_DESCRIPTION=$(bashio::config 'app_description')
 export APP_VERSION=$(bashio::config 'app_version')
