@@ -22,12 +22,26 @@ fi
 # Change to backend directory
 cd /app/backend || bashio::exit.nok "Failed to change to backend directory"
 
+# Check if backend directory has the expected files
+bashio::log.info "Backend directory contents:"
+ls -la /app/backend/
+
 # Source environment file
 if [[ -f .env ]]; then
     source .env
     bashio::log.debug "Environment file loaded"
 else
     bashio::log.warning "Environment file not found, using defaults"
+fi
+
+# Check if main.py exists
+if [[ ! -f main.py ]]; then
+    bashio::exit.nok "main.py not found in /app/backend directory!"
+fi
+
+# Check virtual environment
+if [[ ! -f /opt/venv/bin/python ]]; then
+    bashio::exit.nok "Python virtual environment not found at /opt/venv/bin/python!"
 fi
 
 # Set environment variables for the application
