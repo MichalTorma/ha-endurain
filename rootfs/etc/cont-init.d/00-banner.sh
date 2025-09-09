@@ -1,6 +1,6 @@
 #!/usr/bin/with-contenv bashio
 # ==============================================================================
-# Home Assistant Community Add-on: Endurian
+# Home Assistant Community Add-on: Endurain
 # Displays a simple banner on startup
 # ==============================================================================
 

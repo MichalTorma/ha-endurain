@@ -1,10 +1,10 @@
 configuration:
   endurain_version:
-    name: Endurian Version
-    description: Version of Endurian to install and run
+    name: Endurain Version
+    description: Version of Endurain to install and run
   app_title:
     name: Application Title
-    description: Title displayed in the Endurian web interface
+    description: Title displayed in the Endurain web interface
   app_description:
     name: Application Description
     description: Description shown in the application
@@ -25,7 +25,7 @@ configuration:
     description: Password for PostgreSQL database authentication
   postgres_db:
     name: PostgreSQL Database
-    description: Name of the PostgreSQL database for Endurian
+    description: Name of the PostgreSQL database for Endurain
   postgres_schema:
     name: PostgreSQL Schema
     description: Database schema to use (default is 'public')

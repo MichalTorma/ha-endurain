@@ -6,7 +6,7 @@ SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
 # Build arguments
 ARG BUILD_ARCH
-ARG ENDURIAN_VERSION=v0.14.0
+ARG ENDURAIN_VERSION=v0.14.0
 
 # Install base dependencies
 RUN \
@@ -47,10 +47,10 @@ RUN \
 # Set working directory
 WORKDIR /tmp
 
-# Download and extract Endurian source
+# Download and extract Endurain source
 RUN \
-    echo "Downloading Endurian ${ENDURIAN_VERSION}..." \
-    && wget -O endurain.tar.gz "https://github.com/joaovitoriasilva/endurain/archive/refs/tags/${ENDURIAN_VERSION}.tar.gz" \
+    echo "Downloading Endurain ${ENDURAIN_VERSION}..." \
+    && wget -O endurain.tar.gz "https://github.com/joaovitoriasilva/endurain/archive/refs/tags/${ENDURAIN_VERSION}.tar.gz" \
     && tar -xzf endurain.tar.gz --strip-components=1 \
     && rm endurain.tar.gz
 

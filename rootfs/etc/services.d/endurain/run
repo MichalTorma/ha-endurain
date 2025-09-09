@@ -1,15 +1,15 @@
 #!/usr/bin/with-contenv bashio
 # ==============================================================================
-# Home Assistant Community Add-on: Endurian
-# Runs the Endurian FastAPI application
+# Home Assistant Community Add-on: Endurain
+# Runs the Endurain FastAPI application
 # ==============================================================================
 
 # CRITICAL TEST: This should appear in logs if s6 recognizes the service
-echo "=== ENDURIAN SERVICE STARTING ===" >&2
+echo "=== ENDURAIN SERVICE STARTING ===" >&2
 echo "This message should appear if s6 recognizes the service" >&2
 
 # Also try bashio logging
-bashio::log.info "=== ENDURIAN SERVICE STARTING ==="
+bashio::log.info "=== ENDURAIN SERVICE STARTING ==="
 bashio::log.info "This message should appear if s6 recognizes the service"
 
 # Basic test - just make sure the service is recognized
@@ -53,8 +53,8 @@ else
     ls -la /opt/ || bashio::log.error "Opt directory doesn't exist"
 fi
 
-# Start the actual Endurian application
-bashio::log.info "Starting Endurian FastAPI application..."
+# Start the actual Endurain application
+bashio::log.info "Starting Endurain FastAPI application..."
 
 # Set environment variables for the application from Home Assistant config
 # Database configuration
@@ -74,8 +74,8 @@ export APP_DESCRIPTION=$(bashio::config 'app_description')
 export APP_VERSION=$(bashio::config 'app_version')
 
 # Optional environment variables with defaults
-export ENDURIAN_UID=8080
-export ENDURIAN_GID=8080
+export ENDURAIN_UID=8080
+export ENDURAIN_GID=8080
 export TZ=$(bashio::config 'timezone')
 export DB_TYPE=postgres
 export REVERSE_GEO_PROVIDER=$(bashio::config 'reverse_geo_provider')

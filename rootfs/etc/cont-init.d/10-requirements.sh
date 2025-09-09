@@ -1,10 +1,10 @@
 #!/usr/bin/with-contenv bashio
 # ==============================================================================
-# Home Assistant Community Add-on: Endurian
+# Home Assistant Community Add-on: Endurain
 # Check addon configuration and requirements
 # ==============================================================================
 
-bashio::log.info "Checking Endurian addon requirements..."
+bashio::log.info "Checking Endurain addon requirements..."
 
 # Check if PostgreSQL configuration is provided
 if ! bashio::config.has_value 'postgres_host'; then

@@ -1,16 +1,16 @@
 #!/usr/bin/with-contenv bashio
 # ==============================================================================
-# Home Assistant Community Add-on: Endurian
-# Take care of a graceful shutdown of the Endurian service
+# Home Assistant Community Add-on: Endurain
+# Take care of a graceful shutdown of the Endurain service
 # ==============================================================================
 
-bashio::log.warning "=== ENDURIAN SERVICE FINISHED/CRASHED ==="
+bashio::log.warning "=== ENDURAIN SERVICE FINISHED/CRASHED ==="
 bashio::log.warning "Exit code: $1"
 bashio::log.warning "Exit signal: $2"
 
 if [ "$1" != "0" ]; then
-    bashio::log.error "Endurian service exited with non-zero code: $1"
+    bashio::log.error "Endurain service exited with non-zero code: $1"
     bashio::log.error "This indicates an error occurred during startup or runtime"
 fi
 
-bashio::log.info "Endurian service shutdown complete"
+bashio::log.info "Endurain service shutdown complete"

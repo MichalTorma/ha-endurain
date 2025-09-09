@@ -1,10 +1,10 @@
 #!/usr/bin/with-contenv bashio
 # ==============================================================================
-# Home Assistant Community Add-on: Endurian
-# Configure Endurian application
+# Home Assistant Community Add-on: Endurain
+# Configure Endurain application
 # ==============================================================================
 
-bashio::log.info "Configuring Endurian..."
+bashio::log.info "Configuring Endurain..."
 
 # Get configuration values
 POSTGRES_HOST=$(bashio::config 'postgres_host')
@@ -29,7 +29,7 @@ APP_TITLE=$(bashio::config 'app_title')
 APP_DESCRIPTION=$(bashio::config 'app_description')
 APP_VERSION=$(bashio::config 'app_version')
 
-# Create environment file for Endurian
+# Create environment file for Endurain
 bashio::log.info "Creating environment configuration..."
 cat > /app/backend/.env << EOF
 # Database configuration
@@ -84,7 +84,7 @@ export PGPASSWORD="${POSTGRES_PASSWORD}"
 if ! timeout 10 bash -c "echo > /dev/tcp/${POSTGRES_HOST}/${POSTGRES_PORT}"; then
     bashio::log.warning "Cannot connect to PostgreSQL at ${POSTGRES_HOST}:${POSTGRES_PORT}"
     bashio::log.warning "Please ensure PostgreSQL is running and accessible"
-    bashio::log.warning "Endurian will attempt to connect on startup"
+    bashio::log.warning "Endurain will attempt to connect on startup"
 fi
 
-bashio::log.info "Endurian configuration completed!"
+bashio::log.info "Endurain configuration completed!"
